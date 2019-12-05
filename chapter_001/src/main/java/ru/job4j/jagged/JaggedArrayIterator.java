@@ -1,6 +1,7 @@
 package ru.job4j.jagged;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class JaggedArrayIterator implements Iterator<Integer> {
 
@@ -20,6 +21,9 @@ public class JaggedArrayIterator implements Iterator<Integer> {
 
     @Override
     public Integer next() {
+        if (this.idx >= sumLength()) {
+            throw new NoSuchElementException();
+        }
         int result = values[this.row][this.cell];
         increaseIdx();
         return result;
