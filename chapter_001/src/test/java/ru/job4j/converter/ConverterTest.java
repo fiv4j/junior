@@ -98,6 +98,15 @@ public class ConverterTest {
     }
 
     @Test(expected = NoSuchElementException.class)
+    public void hasNextShouldReturnFalseAndNextThrowExceptionInCaseIteratorIsNull() {
+        Iterator<Iterator<Integer>> its = null;
+        Converter iteratorOfIterators = new Converter();
+        it = iteratorOfIterators.convert(its);
+        assertThat(it.hasNext(), is(false));
+        it.next();
+    }
+
+    @Test(expected = NoSuchElementException.class)
     public void invocationOfNextMethodShouldThrowNoSuchElementException() {
         Iterator<Integer> it1 = Arrays.asList(1, 2, 3).iterator();
         Iterator<Iterator<Integer>> its = Arrays.asList(it1).iterator();
