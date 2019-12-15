@@ -18,8 +18,8 @@ public class DynamicLinkedList<E> implements Iterable<E> {
         modCount++;
     }
 
-    public E get(int index) {
-        if (index >= size) {
+    private Node<E> getNode(int index) {
+        if (index >= size || index < 0) {
             return null;
         }
         Node<E> result = first;
@@ -28,7 +28,31 @@ public class DynamicLinkedList<E> implements Iterable<E> {
             result = result.next;
             idx++;
         }
-        return result.data;
+        return result;
+    }
+
+    public E get(int index) {
+        Node<E> resultNode = getNode(index);
+        if (resultNode == null) {
+            return null;
+        }
+        return resultNode.data;
+    }
+
+    public E remove(int index) {
+        Node<E> resultNode = getNode(index);
+        if (resultNode == null) {
+            return null;
+        }
+        if (index == 0) {
+            first = resultNode.next;
+        } else {
+            Node<E> prevNode = getNode(index - 1);
+            prevNode.next = resultNode.next;
+        }
+        size--;
+        modCount++;
+        return resultNode.data;
     }
 
     @Override
