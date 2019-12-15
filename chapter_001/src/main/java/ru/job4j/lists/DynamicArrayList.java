@@ -18,10 +18,14 @@ public class DynamicArrayList<E> implements Iterable<E> {
         this(10);
     }
 
+    private void increaseSize() {
+        container = Arrays.copyOf(container, container.length * 2 + 1);
+    }
+
     public void add(E value) {
         modCount++;
         if (currentIndex == container.length) {
-            container = Arrays.copyOf(container, container.length * 2 + 1);
+            increaseSize();
         }
         container[currentIndex++] = value;
     }
