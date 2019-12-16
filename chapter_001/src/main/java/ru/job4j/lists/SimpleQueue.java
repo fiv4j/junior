@@ -2,26 +2,27 @@ package ru.job4j.lists;
 
 public class SimpleQueue<T> {
 
-    private SimpleStack<T> store = new SimpleStack<>();
+    private SimpleStack<T> inputStack = new SimpleStack<>();
+    private SimpleStack<T> outputStack = new SimpleStack<>();
 
     public void push(T value) {
-        store.push(value);
+        inputStack.push(value);
     }
 
-    private SimpleStack<T> getReversedStack(SimpleStack<T> source) {
-        SimpleStack<T> result = new SimpleStack<>();
-        T currentElement = source.poll();
-        while (currentElement != null) {
-            result.push(currentElement);
-            currentElement = source.poll();
+    public T poll() {
+        T result = outputStack.poll();
+        if (result == null) {
+            fillOutputStack();
+            result = outputStack.poll();
         }
         return result;
     }
 
-    public T poll() {
-        SimpleStack<T> reversedStack = getReversedStack(store);
-        T result = reversedStack.poll();
-        store = getReversedStack(reversedStack);
-        return result;
+    private void fillOutputStack() {
+        T currentElement = inputStack.poll();
+        while (currentElement != null) {
+            outputStack.push(currentElement);
+            currentElement = inputStack.poll();
+        }
     }
 }
