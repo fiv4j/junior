@@ -80,4 +80,13 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             }
         };
     }
+
+    public boolean isBinary() {
+        for (E currentElement : this) {
+            if (findBy(currentElement).get().leaves().size() > 2) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
