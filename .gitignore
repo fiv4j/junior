@@ -72,3 +72,6 @@ jrebel.lic
 build
 .gradle
 *.pid
+
+# my settings
+*.properties
