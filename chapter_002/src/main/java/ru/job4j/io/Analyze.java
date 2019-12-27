@@ -6,27 +6,37 @@ import java.util.List;
 public class Analyze {
 
     private static final List<String> UNAVAILABLE_STATUS = List.of("400", "500");
+    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     public void unavailable(String source, String target) {
 
-        try (BufferedReader br = new BufferedReader(new FileReader(source));
-             PrintWriter pw = new PrintWriter(new FileOutputStream(target))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(source))) {
 
             boolean isUnavailable = false;
+            StringBuilder out = new StringBuilder();
             String next;
             while ((next = br.readLine()) != null) {
                 StatusTime current = new StatusTime(next);
                 if (!isUnavailable && UNAVAILABLE_STATUS.contains(current.status)) {
-                    pw.print(current.time + ";");
+                    out.append(current.time).append(';');
                     isUnavailable = true;
                 }
                 if (isUnavailable && !UNAVAILABLE_STATUS.contains(current.status)) {
-                    pw.println(current.time + ";");
+                    out.append(current.time).append(';').append(LINE_SEPARATOR);
                     isUnavailable = false;
                 }
             }
+            this.writeToFile(target, out.toString());
         } catch (IOException e) {
-            System.out.print("I/O Error.");
+            System.out.print("Input Error.");
+        }
+    }
+
+    private void writeToFile(String filename, String data) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(filename))) {
+            pw.println(data);
+        } catch (IOException e) {
+            System.out.println("Output Error.");
         }
     }
 

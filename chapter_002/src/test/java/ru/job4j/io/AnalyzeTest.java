@@ -63,7 +63,7 @@ public class AnalyzeTest {
     @Test
     public void whenRunMethodThenCSVFileContainsExpectedString() throws IOException {
         new Analyze().unavailable(log.toString(), csv.toString());
-        String expected = new StringJoiner(System.lineSeparator())
+        String expected = new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
                 .add("10:58:01;10:59:01;")
                 .add("11:01:02;11:02:02;")
                 .add("11:02:03;11:02:07;")
@@ -89,7 +89,7 @@ public class AnalyzeTest {
         log = Path.of("not_existed_file");
         new Analyze().unavailable(log.toString(), csv.toString());
 
-        assertThat(out.toString(), is("I/O Error."));
+        assertThat(out.toString(), is("Input Error."));
 
         System.setOut(stdout);
     }
