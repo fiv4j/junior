@@ -47,12 +47,20 @@ public class SearchTest {
 
     @Test(expected = FileNotFoundException.class)
     public void whenParentNotExistsThenThrowException() throws FileNotFoundException {
-        new Search().files("not_existed_dir", List.of("xml"));
+        new Search().files(
+                "not_existed_dir",
+                List.of("xml"),
+                List.of("xml")::contains
+        );
     }
 
     @Test
     public void whenCreatedOneXMLThenReturnListWithOneElement() throws FileNotFoundException {
-        List<File> resultList = new Search().files(tmpDir, List.of("xml"));
+        List<File> resultList = new Search().files(
+                tmpDir,
+                List.of("xml"),
+                List.of("xml")::contains
+        );
         String result = resultList.get(0).getPath();
 
         assertThat(resultList.size(), is(1));
@@ -62,7 +70,11 @@ public class SearchTest {
     @Test
     public void whenCreatedOneXMLAndOneTXTThenReturnListWithTwoElements()
             throws FileNotFoundException {
-        List<File> resultList = new Search().files(tmpDir, List.of("xml", "doc"));
+        List<File> resultList = new Search().files(
+                tmpDir,
+                List.of("xml", "doc"),
+                List.of("xml", "doc")::contains
+        );
 
         assertThat(resultList.size(), is(2));
         assertThat(
