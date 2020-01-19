@@ -19,14 +19,8 @@ public class Analize {
             }
         }
 
-        if ((previous.size() - result.deleted) != current.size()) {
-            for (var currUser : current) {
-                User prevUser = findById(previous, currUser.id);
-                if (prevUser == null) {
-                    result.added++;
-                }
-            }
-        }
+        int notChanged = previous.size() - result.changed - result.deleted;
+        result.added = current.size() - result.changed - notChanged;
 
         return result;
     }
