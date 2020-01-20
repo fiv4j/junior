@@ -1,13 +1,14 @@
 package ru.job4j.io.archiver;
 
-import java.io.File;
-
 public class Args {
 
     private String[] args;
 
     public Args(String[] args) {
         this.args = args;
+        if (args.length < 6) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public String directory() {
@@ -18,9 +19,8 @@ public class Args {
         return args[findArgPosition("-e")];
     }
 
-    public File output() {
-        String outputFile = args[findArgPosition("-o")];
-        return new File(outputFile);
+    public String output() {
+        return args[findArgPosition("-o")];
     }
 
     private int findArgPosition(String flag) {
