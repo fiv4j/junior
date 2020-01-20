@@ -1,17 +1,9 @@
 package ru.job4j.chat;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class ConsoleChat {
-    private static boolean exit = false;
-    private static boolean paused = false;
-
-    private static String userMsg;
-    private static String botMsg;
 
     private static final File LOG_FILE = new File("session.log");
     private static final File BOT_PHRASE_FILE = new File("answers.txt");
@@ -36,45 +28,49 @@ public class ConsoleChat {
         try (
                 BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
                 FileWriter fileWriter = new FileWriter(LOG_FILE)) {
+
+            Map<String, Boolean> statuses = new HashMap<>();
+            statuses.put("exit", false);
+            statuses.put("pause", false);
+
             do {
                 System.out.print("User: ");
-                userMsg = consoleReader.readLine();
-                checkUserMsg();
+                String userMsg = consoleReader.readLine();
+                checkUserMsg(userMsg, statuses);
 
-                createBotMsg();
+                String botMsg = createBotMsg(statuses);
                 if (botMsg != null) {
                     System.out.println("Bot: " + botMsg);
                 }
 
-                logChat(fileWriter);
+                logChat(fileWriter, userMsg, botMsg);
 
-            } while (!exit);
+            } while (!statuses.get("exit"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void checkUserMsg() {
+    private static void checkUserMsg(String userMsg, Map<String, Boolean> statuses) {
         if ("pause".equals(userMsg)) {
-            paused = true;
+            statuses.put("pause", true);
         }
-        if (paused && "resume".equals(userMsg)) {
-            paused = false;
+        if (statuses.get("pause") && "resume".equals(userMsg)) {
+            statuses.put("pause", false);
         }
         if ("exit".equals(userMsg)) {
-            exit = true;
+            statuses.put("exit", true);
         }
     }
 
-    private static void createBotMsg() {
-        if (paused || exit) {
-            botMsg = null;
-            return;
+    private static String createBotMsg(Map<String, Boolean> statuses) {
+        if (statuses.get("pause") || statuses.get("exit")) {
+            return null;
         }
-        botMsg = BOT_ANSWERS.get(new Random().nextInt(BOT_ANSWERS.size()));
+        return BOT_ANSWERS.get(new Random().nextInt(BOT_ANSWERS.size()));
     }
 
-    private static void logChat(FileWriter fw) throws IOException {
+    private static void logChat(FileWriter fw, String userMsg, String botMsg) throws IOException {
         fw.write("User: " + userMsg + System.lineSeparator());
         if (botMsg != null) {
             fw.write("Bot: " + botMsg + System.lineSeparator());
