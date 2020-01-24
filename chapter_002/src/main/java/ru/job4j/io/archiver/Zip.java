@@ -27,14 +27,8 @@ public class Zip {
     }
 
     public void packDir(String root, String dest, String ext) throws FileNotFoundException {
-        File source = new File(root);
         File target = new File(dest);
         List<File> filesToArchive;
-
-        if (!source.exists() || !source.isDirectory()) {
-            System.out.println("Root directory doesn't exist.");
-            return;
-        }
 
         filesToArchive = seekBy(root, ext);
         try (ZipOutputStream zip = new ZipOutputStream(
