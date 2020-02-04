@@ -1,6 +1,8 @@
 package ru.job4j.statistic;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Analize {
@@ -8,31 +10,23 @@ public class Analize {
     public Info diff(List<User> previous, List<User> current) {
         Info result = new Info();
 
-        for (var prevUser : previous) {
-            User currUser = findById(current, prevUser.id);
-            if (currUser == null) {
-                result.deleted++;
-                continue;
-            }
-            if (!currUser.name.equals(prevUser.name)) {
-                result.changed++;
-            }
+        Map<Integer, String> prevMap = new HashMap<>();
+        for (var prevElem : previous) {
+            prevMap.put(prevElem.id, prevElem.name);
         }
 
-        int notChanged = previous.size() - result.changed - result.deleted;
-        result.added = current.size() - result.changed - notChanged;
-
-        return result;
-    }
-
-    private User findById(List<User> users, int id) {
-        User result = null;
-        for (var user : users) {
-            if (user.id == id) {
-                result = user;
-                break;
+        for (var currElem : current) {
+            String preVal = prevMap.remove(currElem.id);
+            if (preVal == null) {
+                result.added++;
+            } else {
+                if (!preVal.equals(currElem.name)) {
+                    result.changed++;
+                }
             }
         }
+        result.deleted = prevMap.size();
+
         return result;
     }
 
