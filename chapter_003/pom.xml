@@ -18,6 +18,11 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.5</version>
         </dependency>
+        <dependency>
+            <groupId>ru.job4j</groupId>
+            <artifactId>tracker_module</artifactId>
+            <version>3.0</version>
+        </dependency>
     </dependencies>
 
 
