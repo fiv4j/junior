@@ -41,7 +41,9 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     @Override
     public void close() {
         try {
-            connection.close();
+            if (connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
