@@ -2,13 +2,13 @@ package ru.job4j.design.srp;
 
 import java.util.function.Predicate;
 
-public class ReportEngine {
-    protected final Store store;
+public class AccountingReport extends ReportEngine {
 
-    public ReportEngine(Store store) {
-        this.store = store;
+    public AccountingReport(Store store) {
+        super(store);
     }
 
+    @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
         text.append("Name; Hired; Fired; Salary;")
@@ -17,7 +17,7 @@ public class ReportEngine {
             text.append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
                     .append(employee.getFired()).append(";")
-                    .append(employee.getSalary()).append(";")
+                    .append(employee.getSalary()).append("$").append(";")
                     .append(System.lineSeparator());
         }
         return text.toString();
