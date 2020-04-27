@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class HRReport extends ReportEngine {
+public class HRReport implements Report {
+
+    private final Store store;
 
     public HRReport(Store store) {
-        super(store);
+        this.store = store;
     }
 
     @Override

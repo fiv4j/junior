@@ -2,10 +2,12 @@ package ru.job4j.design.srp;
 
 import java.util.function.Predicate;
 
-public class ITReport extends ReportEngine {
+public class ITReport implements Report {
+
+    private final Store store;
 
     public ITReport(Store store) {
-        super(store);
+        this.store = store;
     }
 
     @Override

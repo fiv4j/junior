@@ -13,7 +13,7 @@ public class ReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        ReportEngine engine = new ReportEngine(store);
+        Report engine = new ReportEngine(store);
         StringBuilder expected = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -31,7 +31,7 @@ public class ReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        ReportEngine engine = new AccountingReport(store);
+        Report engine = new AccountingReport(store);
         StringBuilder expected = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -49,7 +49,7 @@ public class ReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        ReportEngine engine = new ITReport(store);
+        Report engine = new ITReport(store);
         StringBuilder expected = new StringBuilder()
                 .append("<html>").append(System.lineSeparator())
                 .append("<body>").append(System.lineSeparator())
@@ -74,7 +74,7 @@ public class ReportEngineTest {
         store.add(ivan);
         Employee mary = new Employee("Mary", now, now, 200);
         store.add(mary);
-        ReportEngine engine = new HRReport(store);
+        Report engine = new HRReport(store);
         StringBuilder expected = new StringBuilder()
                 .append("Name; Salary;")
                 .append(System.lineSeparator())
