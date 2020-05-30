@@ -86,4 +86,70 @@ public class ReportEngineTest {
                 .append(System.lineSeparator());
         assertThat(engine.generate(em -> true), is(expected.toString()));
     }
+
+    @Test
+    public void whenXMLReportGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new XMLReportEngine(store);
+
+        StringBuilder expected = new StringBuilder()
+                .append("<employees>").append(System.lineSeparator())
+                .append("\t<employee>").append(System.lineSeparator())
+                .append("\t\t<name>").append(worker.getName()).append("</name>").append(System.lineSeparator())
+                .append("\t\t<hired>").append(worker.getHired()).append("</hired>").append(System.lineSeparator())
+                .append("\t\t<fired>").append(worker.getFired()).append("</fired>").append(System.lineSeparator())
+                .append("\t\t<salary>").append(worker.getSalary()).append("</salary>").append(System.lineSeparator())
+                .append("\t</employee>").append(System.lineSeparator())
+                .append("</employees>").append(System.lineSeparator());
+
+        assertThat(engine.generate(em -> true), is(expected.toString()));
+    }
+
+    @Test
+    public void whenHTMLReportGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new HTMLReportEngine(store);
+
+        StringBuilder expected = new StringBuilder()
+                .append("<html>").append(System.lineSeparator())
+                .append("<body>").append(System.lineSeparator())
+                .append("\t<h1>Employees</h1>").append(System.lineSeparator())
+                .append("\t\t<h3>Employee</h3>").append(System.lineSeparator())
+                .append("\t\t\t<h6>Name ").append(worker.getName()).append("</h6>").append(System.lineSeparator())
+                .append("\t\t\t<h6>Hired ").append(worker.getHired()).append("</h6>").append(System.lineSeparator())
+                .append("\t\t\t<h6>Fired ").append(worker.getFired()).append("</h6>").append(System.lineSeparator())
+                .append("\t\t\t<h6>Salary ").append(worker.getSalary()).append("</h6>").append(System.lineSeparator())
+                .append("</body>").append(System.lineSeparator())
+                .append("</html>").append(System.lineSeparator());
+
+        assertThat(engine.generate(em -> true), is(expected.toString()));
+    }
+
+    @Test
+    public void whenJSONReportGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report engine = new JSONReportEngine(store);
+
+        StringBuilder expected = new StringBuilder()
+                .append("{ \"employees\": [").append(System.lineSeparator())
+                .append("\t\"employee\": {").append(System.lineSeparator())
+                .append("\t\t\"name\": \"").append(worker.getName()).append("\",").append(System.lineSeparator())
+                .append("\t\t\"hired\": ").append(worker.getHired()).append(",").append(System.lineSeparator())
+                .append("\t\t\"fired\": ").append(worker.getFired()).append(",").append(System.lineSeparator())
+                .append("\t\t\"salary\": ").append(worker.getSalary()).append(System.lineSeparator())
+                .append("\t\t},").append(System.lineSeparator())
+                .append("\t]").append(System.lineSeparator())
+                .append("}").append(System.lineSeparator());
+
+        assertThat(engine.generate(em -> true), is(expected.toString()));
+    }
 }
