@@ -2,6 +2,7 @@ package ru.job4j.chat;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -62,6 +63,7 @@ public class ConsoleChatTest {
         ConsoleChat chat = new ConsoleChat("not_exists_file");
     }
 
+    @Ignore
     @Test
     public void whenEnterWordExitThenLogFileContainsIt() throws IOException {
         ConsoleChat chat = new ConsoleChat(textFilename, logFilename, new Input() {
