@@ -50,7 +50,6 @@ public class ZipTest {
         }
     }
 
-    @Ignore
     @Test
     public void whenUsePackDirThenZipFileAppear() throws FileNotFoundException {
         new Zip().packDir(
