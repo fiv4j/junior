@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -27,7 +26,7 @@ public class GeneratorTest {
     }
 
     @Ignore
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void whenMapNotContainsTemplateKey() {
         Generator test = new SimpleGenerator();
         String template = "I am a ${name}, Who are ${subject}?";
@@ -38,7 +37,7 @@ public class GeneratorTest {
     }
 
     @Ignore
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void whenMapContainsExcessKey() {
         Generator test = new SimpleGenerator();
         String template = "I am a ${name}, Who are ${subject}?";
